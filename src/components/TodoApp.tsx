@@ -10,6 +10,7 @@ import { useSidebar } from './ui/sidebar';
 import { useIsMobile } from '../hooks/use-mobile';
 import { Drawer, DrawerContent, DrawerTrigger } from './ui/drawer';
 import AppSidebar from './AppSidebar';
+import { ThemeToggle } from './ThemeToggle';
 
 const TodoAppContent = () => {
   const { todos } = useTodos();
@@ -40,11 +41,15 @@ const TodoAppContent = () => {
 
   if (!currentList) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+      <div className="min-h-screen bg-background p-4">
+        {/* Theme Toggle - Fixed Position */}
+        <div className="fixed top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
         <div className="max-w-xl mx-auto pt-6">
           <div className="text-center">
-            <h1 className="text-xl sm:text-2xl font-light text-slate-800 mb-6">Tasks</h1>
-            <p className="text-slate-600">Loading...</p>
+            <h1 className="text-xl sm:text-2xl font-light text-foreground mb-6">Tasks</h1>
+            <p className="text-muted-foreground">Loading...</p>
           </div>
         </div>
       </div>
@@ -52,17 +57,22 @@ const TodoAppContent = () => {
   }
 
   return (
-    <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen flex w-full bg-background">
       {/* Desktop Sidebar */}
       {!isMobile && <AppSidebar />}
       
-      <main className="flex-1 p-3 sm:p-4">
+      <main className="flex-1 p-3 sm:p-4 relative">
+        {/* Theme Toggle - Fixed Position */}
+        <div className="fixed top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+
         {/* Mobile menu trigger */}
         {isMobile ? (
           <Drawer open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
             <DrawerTrigger asChild>
-              <button className="fixed top-4 left-4 z-40 p-2 bg-white rounded-lg shadow-md border border-slate-200 hover:bg-slate-50">
-                <Menu className="w-5 h-5 text-slate-600" />
+              <button className="fixed top-4 left-4 z-40 p-2 bg-card rounded-lg shadow-md border hover:bg-accent">
+                <Menu className="w-5 h-5 text-foreground" />
               </button>
             </DrawerTrigger>
             <DrawerContent className="h-[85vh]">
@@ -81,8 +91,8 @@ const TodoAppContent = () => {
             onMouseLeave={handleMouseLeave}
           >
             {/* Visual trigger indicator */}
-            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-16 bg-slate-200/50 hover:bg-slate-300/70 rounded-r-lg flex items-center justify-center transition-all duration-200 cursor-pointer">
-              <Menu className="w-4 h-4 text-slate-600" />
+            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 w-8 h-16 bg-muted/50 hover:bg-muted rounded-r-lg flex items-center justify-center transition-all duration-200 cursor-pointer">
+              <Menu className="w-4 h-4 text-muted-foreground" />
             </div>
           </div>
         )}
@@ -90,10 +100,10 @@ const TodoAppContent = () => {
         <div className="max-w-xl mx-auto">
           {/* Header */}
           <div className="text-center mb-4 pt-3 sm:pt-4">
-            <h1 className="text-xl sm:text-2xl font-light text-slate-800 mb-1">
+            <h1 className="text-xl sm:text-2xl font-light text-foreground mb-1">
               {currentList.name}
             </h1>
-            <p className="text-slate-600 text-xs sm:text-sm">
+            <p className="text-muted-foreground text-xs sm:text-sm">
               {totalCount === 0 
                 ? "No tasks yet. Add one below to get started." 
                 : `${completedCount} of ${totalCount} completed`
@@ -106,7 +116,7 @@ const TodoAppContent = () => {
             {!showInput && (
               <button
                 onClick={() => setShowInput(true)}
-                className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center justify-center gap-2 h-9"
+                className="px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors duration-200 flex items-center justify-center gap-2 h-9"
               >
                 <Plus size={14} />
                 Add Task
@@ -131,7 +141,7 @@ const TodoAppContent = () => {
 
           {/* Footer */}
           {todos.length > 0 && (
-            <div className="text-center mt-6 sm:mt-8 text-xs text-slate-400">
+            <div className="text-center mt-6 sm:mt-8 text-xs text-muted-foreground">
               Tasks are saved locally in your browser
             </div>
           )}
